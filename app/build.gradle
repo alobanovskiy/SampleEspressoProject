@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId 'com.moonpi.swiftnotes'
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 11
         versionName '3.1.4'
@@ -45,6 +45,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    androidTestImplementation('com.schibsted.spain:barista:3.9.0') {
+        exclude group: 'org.jetbrains.kotlin' // Only if you already use Kotlin in your project
+    }
 
     androidTestImplementation "ru.tinkoff.allure:allure-android:2.5.1@aar"
     androidTestImplementation "ru.tinkoff.allure:allure-common:2.5.1"
