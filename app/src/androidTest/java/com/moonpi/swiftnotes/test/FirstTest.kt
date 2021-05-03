@@ -13,6 +13,8 @@ import android.support.test.runner.AndroidJUnit4
 import android.support.test.uiautomator.UiDevice
 import com.moonpi.swiftnotes.MainActivity
 import com.moonpi.swiftnotes.R
+import com.moonpi.swiftnotes.pages.ActivityEdit
+import com.moonpi.swiftnotes.pages.ActivityMain
 import com.moonpi.swiftnotes.rule.SwiftnotesRule
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Rule
@@ -24,33 +26,22 @@ import ru.tinkoff.allure.step
 
 
 @RunWith(AndroidJUnit4::class)
-@DisplayName("Создание заметки")
 class FirstTest : AbstractSwiftnotesTest() {
 
     @get:Rule
     val rule = SwiftnotesRule(MainActivity::class.java, false)
 
     @Test
-    @DisplayName("Проверка открытия страницы создания")
+    @DisplayName("Проверка экрана создания заметки")
     fun newNoteHints() {
         rule.launchActivity()
         step("Проверяем отображение страницы") {
-            onView(withId(R.id.newNote)).perform(click())
-            onView(allOf(withId(R.id.titleEdit), isDisplayed())).check(matches(withHint("Title")))
-            onView(allOf(withId(R.id.bodyEdit), isDisplayed())).check(matches(withHint("Note")))
-            deviceScreenshot("page_display")
+            ActivityMain()
+                    .clickAddNote()
             pressBack()
             pressBack()
-            onView(withText("Save changes?"))
-            .inRoot(isDialog())
-                .check(matches(isDisplayed()))
-            onView(withText("YES"))
-                    .inRoot(isDialog())
-                    .check(matches(isDisplayed()))
-            onView(withText("NO"))
-                    .inRoot(isDialog())
-                    .check(matches(isDisplayed()))
-                    .perform(click())
+            ActivityEdit()
+                    .saveDialogAction(false)
             onView(allOf(withText("Press \'+\' to add new note")))
                     .check(matches(isDisplayed()))
         }

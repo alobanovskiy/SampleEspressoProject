@@ -13,6 +13,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.moonpi.swiftnotes.MainActivity
 import com.moonpi.swiftnotes.R
+import com.moonpi.swiftnotes.pages.ActivityMain
 import com.moonpi.swiftnotes.rule.SwiftnotesRule
 import com.moonpi.swiftnotes.util.targetContext
 import com.schibsted.spain.barista.rule.BaristaRule
@@ -31,7 +32,7 @@ class ThirdTest : AbstractSwiftnotesTest() {
     val rule = SwiftnotesRule(MainActivity::class.java, false)
 
     @Test
-    @DisplayName("Проверка открытия страницы создания")
+    @DisplayName("Проверка пунктов меню в тулбаре")
     fun newNoteHints() {
         rule.launchActivity()
         step("Проверяем отображение страницы") {
@@ -40,7 +41,8 @@ class ThirdTest : AbstractSwiftnotesTest() {
             onView(withText("Restore notes")).check(matches(isDisplayed()))
             onView(withText("Rate app")).check(matches(isDisplayed()))
             pressBack()
-            onView(withId(R.id.newNote)).perform(ViewActions.click())
+            ActivityMain()
+                    .clickAddNote()
             openActionBarOverflowOrOptionsMenu(targetContext)
             onView(withText("Note font size")).check(matches(isDisplayed()))
         }
