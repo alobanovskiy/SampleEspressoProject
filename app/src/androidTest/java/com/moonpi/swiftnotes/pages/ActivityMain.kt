@@ -6,6 +6,7 @@ import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.*
 import com.moonpi.swiftnotes.R
 import org.hamcrest.CoreMatchers
+import ru.tinkoff.allure.android.deviceScreenshot
 import ru.tinkoff.allure.step
 
 class ActivityMain : Page() {
@@ -22,6 +23,7 @@ class ActivityMain : Page() {
                     .check(matches(withHint("Title")))
             onView(CoreMatchers.allOf(withId(R.id.bodyEdit), isDisplayed()))
                     .check(matches(withHint("Note")))
+            deviceScreenshot("page_display")
             return ActivityEdit()
         }
     }

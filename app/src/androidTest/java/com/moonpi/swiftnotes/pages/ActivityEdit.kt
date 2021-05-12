@@ -9,6 +9,7 @@ import android.support.test.espresso.matcher.ViewMatchers.*
 import com.moonpi.swiftnotes.R.id.bodyEdit
 import com.moonpi.swiftnotes.R.id.titleEdit
 import org.hamcrest.CoreMatchers.allOf
+import ru.tinkoff.allure.android.deviceScreenshot
 import ru.tinkoff.allure.step
 
 class ActivityEdit : Page() {
@@ -18,6 +19,7 @@ class ActivityEdit : Page() {
             onView(allOf(withId(titleEdit), isDisplayed()))
                     .check(matches(withHint("Title")))
                     .perform(typeText(title))
+            deviceScreenshot("page_display")
             return this
         }
     }
@@ -27,6 +29,7 @@ class ActivityEdit : Page() {
             onView(allOf(withId(bodyEdit), isDisplayed()))
                     .check(matches(withHint("Note")))
                     .perform(typeText(body))
+            deviceScreenshot("page_display")
             return this
         }
     }
@@ -36,6 +39,7 @@ class ActivityEdit : Page() {
             onView(withText(dialogTitle))
                     .inRoot(isDialog())
                     .check(matches(isDisplayed()))
+            deviceScreenshot("page_display")
             return this
         }
     }
@@ -46,6 +50,7 @@ class ActivityEdit : Page() {
                     .inRoot(isDialog())
                     .check(matches(isDisplayed()))
                     .perform(click())
+            deviceScreenshot("page_display")
             return this
         }
     }

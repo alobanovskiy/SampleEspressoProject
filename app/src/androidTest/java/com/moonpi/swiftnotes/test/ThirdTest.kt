@@ -1,6 +1,7 @@
 package com.moonpi.swiftnotes.test
 
-import android.support.test.espresso.Espresso.*
+import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.runner.AndroidJUnit4
@@ -33,7 +34,8 @@ class ThirdTest : AbstractSwiftnotesTest() {
                 .check(matches(isDisplayed()))
         onView(withText("Rate app"))
                 .check(matches(isDisplayed()))
-        pressBack()
+        ActivityMain()
+                .back()
         ActivityMain()
                 .clickAddNote()
         openActionBarOverflowOrOptionsMenu(targetContext)
