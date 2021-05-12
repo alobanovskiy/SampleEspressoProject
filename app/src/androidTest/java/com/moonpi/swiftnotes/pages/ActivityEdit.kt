@@ -1,63 +1,53 @@
 package com.moonpi.swiftnotes.pages
 
 import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.action.ViewActions
-import android.support.test.espresso.assertion.ViewAssertions
-import android.support.test.espresso.matcher.RootMatchers
-import android.support.test.espresso.matcher.ViewMatchers
-import com.moonpi.swiftnotes.R
-import org.hamcrest.CoreMatchers
+import android.support.test.espresso.action.ViewActions.click
+import android.support.test.espresso.action.ViewActions.typeText
+import android.support.test.espresso.assertion.ViewAssertions.matches
+import android.support.test.espresso.matcher.RootMatchers.isDialog
+import android.support.test.espresso.matcher.ViewMatchers.*
+import com.moonpi.swiftnotes.R.id.bodyEdit
+import com.moonpi.swiftnotes.R.id.titleEdit
+import org.hamcrest.CoreMatchers.allOf
+import ru.tinkoff.allure.step
 
 class ActivityEdit : Page() {
+
     fun typeTitle(title: String): ActivityEdit {
-        onView(CoreMatchers.allOf(ViewMatchers.withId(R.id.titleEdit), ViewMatchers.isDisplayed()))
-                .check(ViewAssertions.matches(ViewMatchers.withHint("Title")))
-                .perform(ViewActions.typeText(title))
-        return this
-    }
-
-    fun typeBody(body: String): Page {
-        onView(CoreMatchers.allOf(ViewMatchers.withId(R.id.bodyEdit), ViewMatchers.isDisplayed()))
-                .check(ViewAssertions.matches(ViewMatchers.withHint("Note")))
-                .perform(ViewActions.typeText(body))
-        return this
-    }
-
-    fun saveDialogAction(shouldBeSaved: Boolean): Page {
-        onView(ViewMatchers.withText("Save changes?"))
-                .inRoot(RootMatchers.isDialog())
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        return if (shouldBeSaved) {
-            onView(ViewMatchers.withText("YES"))
-                    .inRoot(RootMatchers.isDialog())
-                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-                    .perform(ViewActions.click())
-            this
-        } else {
-            onView(ViewMatchers.withText("NO"))
-                    .inRoot(RootMatchers.isDialog())
-                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-                    .perform(ViewActions.click())
-            ActivityMain()
+        step("ввод заголовка ноды") {
+            onView(allOf(withId(titleEdit), isDisplayed()))
+                    .check(matches(withHint("Title")))
+                    .perform(typeText(title))
+            return this
         }
     }
 
-    fun deleteNoteDialogAction(shouldBeDeleted: Boolean): Page {
-        onView(ViewMatchers.withText("Selected notes will be deleted!"))
-                .inRoot(RootMatchers.isDialog())
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        return if (shouldBeDeleted) {
-            onView(ViewMatchers.withText("ОК"))
-                    .inRoot(RootMatchers.isDialog())
-                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-                    .perform(ViewActions.click())
-            this
-        } else {
-            onView(ViewMatchers.withText("Отмена"))
-                    .inRoot(RootMatchers.isDialog())
-                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-                    .perform(ViewActions.click())
-            ActivityMain()
+    fun typeBody(body: String): ActivityEdit {
+        step("ввод тела ноды") {
+            onView(allOf(withId(bodyEdit), isDisplayed()))
+                    .check(matches(withHint("Note")))
+                    .perform(typeText(body))
+            return this
         }
     }
+
+    fun isDialogPresent(dialogTitle: String): ActivityEdit {
+        step("проверка показан ли диалог" + dialogTitle) {
+            onView(withText(dialogTitle))
+                    .inRoot(isDialog())
+                    .check(matches(isDisplayed()))
+            return this
+        }
+    }
+
+    fun dialogAction(buttonName: String): ActivityEdit {
+        step("провести действие" + buttonName + "на диалоговом окне") {
+            onView(withText(buttonName))
+                    .inRoot(isDialog())
+                    .check(matches(isDisplayed()))
+                    .perform(click())
+            return this
+        }
+    }
+
 }

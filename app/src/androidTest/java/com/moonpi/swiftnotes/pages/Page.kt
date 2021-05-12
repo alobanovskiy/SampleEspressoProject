@@ -1,8 +1,10 @@
 package com.moonpi.swiftnotes.pages
 
 import android.support.test.espresso.Espresso
+import ru.tinkoff.allure.step
 
 open class Page {
+
     companion object {
         inline fun <reified T : Page> on(): T {
             return Page().on()
@@ -14,13 +16,16 @@ open class Page {
         page.verify()
         return page
     }
+
     open fun verify(): Page {
         // Each subpage should have its default assurances here
         return this
     }
 
     fun back(): Page {
-        Espresso.pressBack()
-        return this
+        step("вернуться назад") {
+            Espresso.pressBack()
+            return this
+        }
     }
 }
